@@ -5,7 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon src/index"
+    "dev": "nodemon ./index.js",
+    "start": "node ./index.js",
+    "build": "npm i bcrypt bcryptjs cors dotenv express jsonwebtoken morgan mssql nodemon"
   },
   "keywords": [],
   "author": "",

@@ -1,5 +1,4 @@
 import { getConnection } from "../database/connection.js";
-import sql from 'mssql';
 
 export const getTipos = async (req, res) => {
     try {

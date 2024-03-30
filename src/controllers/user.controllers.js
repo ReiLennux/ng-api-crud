@@ -1,7 +1,6 @@
 import { getConnection } from "../database/connection.js";
 import sql from 'mssql';
-import {encrypt, compare }  from '../helpers/handlebcript.js'
-import hash  from "bcrypt";
+import {encrypt }  from '../helpers/handlebcript.js'
 
 export const getUsers = async (req, res) => {
     try {
@@ -13,8 +12,6 @@ export const getUsers = async (req, res) => {
         res.status(500).json({ error: 'Error al obtener usuarios' });
     }
 };
-
-
 
 export const createUser = async (req, res) => {
     const strPassword = req.body.strPassword

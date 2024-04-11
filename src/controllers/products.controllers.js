@@ -13,11 +13,10 @@ export const getProducts = async (req, res) => {
     }
 }
 
-export const createProduct = async (req, res) => {
+export const postProduct = async (req, res) => {
     try {
         const pool = await getConnection();
         const result = await pool.request()
-        .input('productId', sql.Int, productId)
         .input('strName', sql.VarChar, req.body.strName)
         .input('strDescription', sql.VarChar, req.body.strDescription)
         .input('idCatCategoria', sql.Int, req.body.idCatCategoria)
@@ -28,20 +27,18 @@ export const createProduct = async (req, res) => {
         .input('decCost', sql.Float, req.body.decCost)
         .input('decPrice', sql.Float, req.body.decPrice)
         .input('strImage', sql.VarChar, req.body.strImage)
-        .query(`INSERT INTO ProProductos values (strName = @strName,
-                                        strDescription = @strDescription, 
-                                        idCatCategoria = @idCatCategoria,
-                                        idCatSubcategoria = @idCatSubcategoria,
-                                        decMinimum = @decMinimum,
-                                        decMaximum = @decMaximum,
-                                        decStock = @decStock,
-                                        decCost = @decCost,
-                                        decPrice = @decPrice,
-                                        strImage = @strImage)`);
+        .query(`INSERT INTO ProProductos values (@strName,
+                                                @strDescription, 
+                                                @idCatCategoria,
+                                                @idCatSubcategoria,
+                                                @decMinimum,
+                                                @decMaximum,
+                                                @decStock,
+                                                @decCost,
+                                                @decPrice,
+                                                @strImage)`);
         if (result.rowsAffected[0] === 1) {
-            return res.json({ message: 'Producto actualizado correctamente' });
-        } else {
-            return res.status(404).json({ error: 'El producto no fue encontrado' });
+            return res.json({ message: 'Producto insertado correctamente' });
         }
     }catch (error) {
         console.error('Error al crear producto:', error);

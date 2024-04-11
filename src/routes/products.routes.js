@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { deleteProduct, getProducts, updateProduct } from "../controllers/products.controllers.js";
+import { deleteProduct, getProducts, postProduct, updateProduct } from "../controllers/products.controllers.js";
 import { getsubcategorias, getCategorias } from "../controllers/productcat.controller.js";
 
 const router = Router();
 
 router.get('/', getProducts)
 
-router.post('/',)
+router.post('/', postProduct)
 
 router.put('/:id', updateProduct)
 

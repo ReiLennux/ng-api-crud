@@ -15,7 +15,34 @@ export const getProducts = async (req, res) => {
 
 export const createProduct = async (req, res) => {
     try {
-        
+        const pool = await getConnection();
+        const result = await pool.request()
+        .input('productId', sql.Int, productId)
+        .input('strName', sql.VarChar, req.body.strName)
+        .input('strDescription', sql.VarChar, req.body.strDescription)
+        .input('idCatCategoria', sql.Int, req.body.idCatCategoria)
+        .input('idCatSubcategoria', sql.Int, req.body.idCatSubcategoria)
+        .input('decMinimum', sql.Float, req.body.decMinimum)
+        .input('decMaximum', sql.Float, req.body.decMaximum)
+        .input('decStock', sql.Float, req.body.decStock)
+        .input('decCost', sql.Float, req.body.decCost)
+        .input('decPrice', sql.Float, req.body.decPrice)
+        .input('strImage', sql.VarChar, req.body.strImage)
+        .query(`INSERT INTO ProProductos values (strName = @strName,
+                                        strDescription = @strDescription, 
+                                        idCatCategoria = @idCatCategoria,
+                                        idCatSubcategoria = @idCatSubcategoria,
+                                        decMinimum = @decMinimum,
+                                        decMaximum = @decMaximum,
+                                        decStock = @decStock,
+                                        decCost = @decCost,
+                                        decPrice = @decPrice,
+                                        strImage = @strImage)`);
+        if (result.rowsAffected[0] === 1) {
+            return res.json({ message: 'Producto actualizado correctamente' });
+        } else {
+            return res.status(404).json({ error: 'El producto no fue encontrado' });
+        }
     }catch (error) {
         console.error('Error al crear producto:', error);
         res.status(500).json({ error: 'Error al crear producto' });

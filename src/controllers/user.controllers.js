@@ -5,7 +5,7 @@ import {encrypt }  from '../helpers/handlebcript.js'
 export const getUsers = async (req, res) => {
     try {
         const pool = await getConnection();
-        const result = await pool.request().query('SELECT * FROM UsuUsuarios');
+        const result = await pool.request().query('SELECT strName, idUsuCatTipoUsuario, idUsuCatEstadoFK   FROM UsuUsuarios');
         res.json(result.recordset);
     } catch (error) {
         console.error('Error al obtener usuarios:', error);
@@ -22,6 +22,7 @@ export const createUser = async (req, res) => {
     .input('strName', sql.VarChar, req.body.strName)
     .input('strPassword', sql.VarChar, hashPassword)
     .input('idUsuCatTipoUsuario', sql.Int, req.body.idUsuCatTipoUsuario)
+    .input('idUsuCatEstadoFK', sql.Int, req.body.idUsuCatEstadoFK)
     .query(`insert into UsuUsuarios 
     (strName, strPassword, idUsuCatEstadoFK, idUsuCatTipoUsuario) 
     values

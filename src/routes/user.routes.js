@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import { createUser, deleteUser, getUsers } from '../controllers/user.controllers.js';
+import { createUser, deleteUser, getUsers, updateUser } from '../controllers/user.controllers.js';
 import { getEstados, getTipos } from '../controllers/usercat.controller.js';
 
 const router = Router()
@@ -9,9 +9,7 @@ router.get('/', getUsers)
 
 router.post('/', createUser)
 
-router.put('/:id', (req, res) =>{
-    res.send('actualizando usuarios')
-})
+router.put('/:id', updateUser)
 
 router.delete('/:id', deleteUser)
 

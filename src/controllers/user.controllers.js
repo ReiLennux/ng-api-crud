@@ -5,7 +5,7 @@ import {encrypt }  from '../helpers/handlebcript.js'
 export const getUsers = async (req, res) => {
     try {
         const pool = await getConnection();
-        const result = await pool.request().query('SELECT * FROM VistaUsuarios');
+        const result = await pool.request().query('SELECT * FROM UsuUsuarios');
         res.json(result.recordset);
     } catch (error) {
         console.error('Error al obtener usuarios:', error);

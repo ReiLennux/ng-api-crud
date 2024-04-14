@@ -61,6 +61,25 @@ export const updateUser = async (req, res) => {
     }
 }
 
+export const getUserById = async (req, res) => {
+    try{
+        const usuarioId = req.params.id;
+        if (!usuarioId) {
+            return res.status(400).json({ error: 'Se requiere el ID del usuario' });
+        }
+
+        const pool = await getConnection();
+        const result = await pool.request()
+            .input('usuarioId', sql.Int, usuarioId)
+            .query('SELECT * FROM UsuUsuarios WHERE id = @usuarioId');
+
+        res.json(result.recordset);
+    }catch(error){
+        console.error('Error al obtener el usuario:', error);
+        res.status(500).json({ error: 'Error al obtener el usuario' });
+    }
+}
+
 export const deleteUser = async (req, res) => {
     try {
         // Validación de entrada

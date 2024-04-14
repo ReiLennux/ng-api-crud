@@ -5,8 +5,18 @@ import sql from 'mssql';
 export const getSales = async (req, res) => {
     try {
         const pool = await getConnection();
-        const result = await pool.request().query(`SELECT * FROM venVentaProducto as vp
-                                                    INNER JOIN venVenta as v on vp.idVenVenta = v.id`);
+        const result = await pool.request().query(`SELECT vp.id as idVenVentaProducto,
+        vp.idVenVenta as idVenVentaFK,
+        vp.idProProducto,
+        vp.decQuantity,
+        vp.decSubtotal,
+        v.id as idVenVentaPK,
+        v.idUsuUsuario,
+        v.strFolio,
+        v.dtDate,
+        v.idVenCatState
+    FROM venVentaProducto as vp
+    INNER JOIN venVenta as v on vp.idVenVenta = v.id`);
         res.json(result.recordset);
     } catch (error) {
         console.error('Error al obtener las ventas:', error);
@@ -29,7 +39,7 @@ export const postDateSales = async (req, res) => {
         // Obtener el ID generado
         const insertedId = result.recordset[0].id;
         res.json({ insertedId });
-    } catch(error) {
+    } catch (error) {
         console.error('Error al realizar la venta:', error);
         res.status(500).json({ error: 'Error al realizar la venta' });
     }
@@ -45,8 +55,8 @@ export const postSale = async (req, res) => {
             .input('decSubtotal', sql.Decimal, req.body.decSubtotal)
             .query('INSERT INTO venVentaProducto (idVenVenta, idProProducto, decQuantity, decSubtotal) VALUES (@idVenVenta, @idProProducto, @decQuantity, @decSubtotal)');
 
-            res.json(result.recordset);
-    } catch(error) {
+        res.json(result.recordset);
+    } catch (error) {
         console.error('Error al realizar la venta:', error);
         res.status(500).json({ error: 'Error al realizar la venta' });
     }

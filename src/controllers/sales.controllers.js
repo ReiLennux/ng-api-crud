@@ -41,11 +41,11 @@ export const postSale = async (req, res) => {
         const result = await pool.request()
             .input('idVenVenta', sql.Int, req.body.idVenVenta)
             .input('idProProducto', sql.Int, req.body.idProProducto)
-            .input('decQuantity', sql.Decimal, req.body.idVenCatState)
+            .input('decQuantity', sql.Decimal, req.body.decQuantity)
             .input('decSubtotal', sql.Decimal, req.body.decSubtotal)
             .query('INSERT INTO venVentaProducto (idVenVenta, idProProducto, decQuantity, decSubtotal) VALUES (@idVenVenta, @idProProducto, @decQuantity, @decSubtotal)');
 
-            res.json(result.recordset);
+            res.json(result);
     } catch(error) {
         console.error('Error al realizar la venta:', error);
         res.status(500).json({ error: 'Error al realizar la venta' });

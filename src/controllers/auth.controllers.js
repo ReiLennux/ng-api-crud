@@ -9,13 +9,14 @@ export const login = async (req, res) => {
         const pool = await getConnection();
         const result = await pool.request()
             .input('strName', sql.VarChar, strName)
-            .query(`SELECT strPassword FROM UsuUsuarios WHERE strName = @strName`);
+            .query(`SELECT id, strPassword FROM UsuUsuarios WHERE strName = @strName`);
 
         if (result.recordset.length === 0) {
             // El usuario no existe
             return res.status(401).json({ error: 'Credenciales inválidas' });
         }
 
+        const userId = result.recordset[0].id;
         const hashPassword = result.recordset[0].strPassword;
         const passwordMatch = await compare(strPassword, hashPassword);
 
@@ -23,7 +24,7 @@ export const login = async (req, res) => {
             return res.status(401).json({ error: 'Credenciales inválidas' });
         }
         const token = generarToken(strName);
-        res.status(200).json({ message: 'Inicio de sesión exitoso', token:token });
+        res.status(200).json({ message: 'Inicio de sesión exitoso', token:token,userId:userId });
     } catch(error) {
         console.error('Error al iniciar sesión:', error);
         res.status(500).json({ error: 'Error al iniciar sesión' });

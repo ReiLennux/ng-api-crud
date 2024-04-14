@@ -17,20 +17,20 @@ export const getSales = async (req, res) => {
 
 
 export const postDateSales = async (req, res) => {
-    try{
+    try {
         const pool = await getConnection();
         const result = await pool.request()
-        .input('idUsuUsuario', sql.Int, req.body.idUsuUsuario)
-        .input('strFolio', sql.Int, req.body.idVenVenta)
-        .input('dtDate', sql.Date, req.body.dtDate)
-        .input('idVenCatState', sql.Int, req.body.idVenCatState)
-        .query('INSERT INTO venVenta (idUsuUsuario, strFolio, dtDate, idVenCatState) OUTPUT INSERTED.id VALUES (@idUsuUsuario, @strFolio, @dtDate, @idVenCatState)')
-        .output('insertedId', sql.Int);
+            .input('idUsuUsuario', sql.Int, req.body.idUsuUsuario)
+            .input('strFolio', sql.VarChar, req.body.strFolio)
+            .input('dtDate', sql.Date, req.body.dtDate)
+            .input('idVenCatState', sql.Int, req.body.idVenCatState)
+            .query('INSERT INTO venVenta (idUsuUsuario, strFolio, dtDate, idVenCatState) OUTPUT INSERTED.id VALUES (@idUsuUsuario, @strFolio, @dtDate, @idVenCatState)');
 
-        const insertedId = result.output.insertedId; // Obtener el ID generado
+        // Obtener el ID generado
+        const insertedId = result.recordset[0].id;
         res.json({ insertedId });
-    }catch(error){
-        console.error('Error al realizar la ventas:', error);
-        res.status(500).json({ error: 'Error al realizar la ventas' });
+    } catch(error) {
+        console.error('Error al realizar la venta:', error);
+        res.status(500).json({ error: 'Error al realizar la venta' });
     }
 }

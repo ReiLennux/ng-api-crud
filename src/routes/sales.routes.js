@@ -5,12 +5,13 @@ const router = Router();
 
 router.get('/', getSales)
 
-router.post('/', )
+router.post('/', postSale)
 
 router.delete('/:id', )
 
 router.get('/status', getVenEstados)
 
 router.post('/DataSale', postDateSales)
+
 
 export default router;

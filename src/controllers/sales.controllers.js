@@ -45,7 +45,7 @@ export const postSale = async (req, res) => {
             .input('decSubtotal', sql.Decimal, req.body.decSubtotal)
             .query('INSERT INTO venVentaProducto (idVenVenta, idProProducto, decQuantity, decSubtotal) VALUES (@idVenVenta, @idProProducto, @decQuantity, @decSubtotal)');
 
-        res.json({ insertedId });
+            res.json(result.recordset);
     } catch(error) {
         console.error('Error al realizar la venta:', error);
         res.status(500).json({ error: 'Error al realizar la venta' });

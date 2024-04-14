@@ -11,6 +11,6 @@ router.delete('/:id', )
 
 router.get('/status', getVenEstados)
 
-router.post('/DateSale', postDateSales)
+router.post('/DataSale', postDateSales)
 
 export default router;

@@ -5,7 +5,8 @@ import sql from 'mssql';
 export const getDataSales = async (req, res) => {
     try {
         const pool = await getConnection();
-        const result = await pool.request().query(`SELECT * FROM venVenta`);
+        const result = await pool.request().query(`
+        select * from venVenta ORDER BY id desc`);
         res.json(result.recordset);
     } catch (error) {
         console.error('Error al obtener las ventas:', error);

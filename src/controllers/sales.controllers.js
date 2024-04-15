@@ -50,12 +50,13 @@ export const postDateSales = async (req, res) => {
 
 export const postSale = async (req, res) => {
     try {
+        console.log(typeof(req.body.decQuantity))
         const pool = await getConnection();
         const result = await pool.request()
             .input('idVenVenta', sql.Int, req.body.idVenVenta)
             .input('idProProducto', sql.Int, req.body.idProProducto)
-            .input('decQuantity', sql.Decimal, req.body.decQuantity)
-            .input('decSubtotal', sql.Decimal, req.body.decSubtotal)
+            .input('decQuantity', sql.Decimal(6,2), req.body.decQuantity)
+            .input('decSubtotal', sql.Decimal(6,2), req.body.decSubtotal)
             .query('INSERT INTO venVentaProducto (idVenVenta, idProProducto, decQuantity, decSubtotal) VALUES (@idVenVenta, @idProProducto, @decQuantity, @decSubtotal)');
 
         res.json(result.recordset);

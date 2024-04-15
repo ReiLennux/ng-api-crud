@@ -71,7 +71,7 @@ export const getUserById = async (req, res) => {
         const pool = await getConnection();
         const result = await pool.request()
             .input('usuarioId', sql.Int, usuarioId)
-            .query('SELECT * FROM UsuUsuarios WHERE id = @usuarioId');
+            .query('SELECT strName FROM UsuUsuarios WHERE id = @usuarioId');
 
         res.json(result.recordset);
     }catch(error){

@@ -2,27 +2,29 @@ import { getConnection } from "../database/connection.js";
 
 import sql from 'mssql';
 
-export const getSales = async (req, res) => {
+export const getDataSales = async (req, res) => {
     try {
         const pool = await getConnection();
-        const result = await pool.request().query(`SELECT vp.id as idVenVentaProducto,
-        vp.idVenVenta as idVenVentaFK,
-        vp.idProProducto,
-        vp.decQuantity,
-        vp.decSubtotal,
-        v.id as idVenVentaPK,
-        v.idUsuUsuario,
-        v.strFolio,
-        v.dtDate,
-        v.idVenCatState
-    FROM venVentaProducto as vp
-    INNER JOIN venVenta as v on vp.idVenVenta = v.id`);
+        const result = await pool.request().query(`SELECT * FROM venVenta`);
         res.json(result.recordset);
     } catch (error) {
         console.error('Error al obtener las ventas:', error);
         res.status(500).json({ error: 'Error al obtener las ventas' });
     }
+}
 
+export const getSales =  async (req, res) => {
+    try {
+        const idVenVenta = req.params.id
+        const pool = await getConnection();
+        const result = await pool.request()
+        .input('idVenVenta', sql.Int, idVenVenta)
+        .query(`SELECT * FROM venVentaProducto WHERE idVenVenta = @idVenVenta`);
+        res.json(result.recordset);
+    } catch (error) {
+        console.error('Error al obtener las ventas:', error);
+        res.status(500).json({ error: 'Error al obtener las ventas' });
+    }
 }
 
 

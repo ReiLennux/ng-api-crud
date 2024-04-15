@@ -1,9 +1,11 @@
 import {Router} from 'express';
-import { getSales, postDateSales, postSale } from '../controllers/sales.controllers.js';
+import { getDataSales, postDateSales, postSale, getSales } from '../controllers/sales.controllers.js';
 import { getVenEstados } from '../controllers/salecat.controller.js';
 const router = Router();
 
-router.get('/', getSales)
+router.get('/', getDataSales)
+
+router.get('/s/:id', getSales)
 
 router.post('/', postSale)
 

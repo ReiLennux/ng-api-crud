@@ -17,7 +17,7 @@ app.use(express.json())
 app.use('/usuarios', userRoutes)
 app.use('/auth', authRoutes)
 app.use('/productos', productsRoutes)
-app.use('/sales', salesRoutes)
+app.use('/ventas', salesRoutes)
 
 
 export default app

@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import { getDataSales, postDateSales, postSale, getSales } from '../controllers/sales.controllers.js';
+import { getDataSales, postDateSales, postSale, getSales, deleteSale } from '../controllers/sales.controllers.js';
 import { getVenEstados } from '../controllers/salecat.controller.js';
 const router = Router();
 
@@ -9,7 +9,7 @@ router.get('/s/:id', getSales)
 
 router.post('/', postSale)
 
-router.delete('/:id', )
+router.delete('/:id', deleteSale )
 
 router.get('/status', getVenEstados)
 

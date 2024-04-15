@@ -64,3 +64,17 @@ export const postSale = async (req, res) => {
         res.status(500).json({ error: 'Error al realizar la venta' });
     }
 }
+
+export const deleteSale = async (req, res) => {
+    try {
+        const idVenVenta = req.params.id
+        const pool = await getConnection();
+        const result = await pool.request()
+            .input('idVenVenta', sql.Int, idVenVenta)
+            .query('DELETE FROM venVentaProducto WHERE idVenVenta = @idVenVenta; DELETE FROM venVenta where id = @idVenVenta');
+        res.json(result.recordset);
+    } catch (error) {
+        console.error('Error al realizar la venta:', error);
+        res.status(500).json({ error: 'Error al realizar la venta' });
+    }
+}

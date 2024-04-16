@@ -14,7 +14,7 @@ export const getDataSales = async (req, res) => {
     }
 }
 
-export const getSales =  async (req, res) => {
+export const getSale =  async (req, res) => {
     try {
         const idVenVenta = req.params.id
         const pool = await getConnection();
@@ -73,6 +73,23 @@ export const deleteSale = async (req, res) => {
         const result = await pool.request()
             .input('idVenVenta', sql.Int, idVenVenta)
             .query('DELETE FROM venVentaProducto WHERE idVenVenta = @idVenVenta; DELETE FROM venVenta where id = @idVenVenta');
+        res.json(result.recordset);
+    } catch (error) {
+        console.error('Error al realizar la venta:', error);
+        res.status(500).json({ error: 'Error al realizar la venta' });
+    }
+}
+
+export const putSale = async (req, res) => {
+    try {
+        const id = req.params.id
+        const pool = await getConnection();
+        const result = await pool.request()
+            .input('idVenVenta', sql.Int, idVenVenta)
+            .input('idProProducto', sql.Int, req.body.idVenCatState)
+            .input('decQuantity', sql.Decimal(6,2), req.body.decQuantity)
+            .input('decSubtotal', sql.Decimal(6,2), req.body.decSubtotal)
+            .query('UPDATE venVentaProducto SET idVenCatState = @idVenCatState, decQuantity = @decQuantity, decSubtotal = @decSubtotal WHERE idVenVentaProducto = @idVenVentaProducto');
         res.json(result.recordset);
     } catch (error) {
         console.error('Error al realizar la venta:', error);

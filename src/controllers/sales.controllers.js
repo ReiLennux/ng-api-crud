@@ -85,11 +85,12 @@ export const putSale = async (req, res) => {
         const id = req.params.id
         const pool = await getConnection();
         const result = await pool.request()
-            .input('idVenVenta', sql.Int, idVenVenta)
-            .input('idProProducto', sql.Int, req.body.idVenCatState)
+            .input('id', sql.Int, id)
+            .input('idVenVenta', sql.Int, req.body.idVenVenta)
+            .input('idProProducto', sql.Int, req.body.idProProducto)
             .input('decQuantity', sql.Decimal(6,2), req.body.decQuantity)
             .input('decSubtotal', sql.Decimal(6,2), req.body.decSubtotal)
-            .query('UPDATE venVentaProducto SET idVenCatState = @idVenCatState, decQuantity = @decQuantity, decSubtotal = @decSubtotal WHERE idVenVentaProducto = @idVenVentaProducto');
+            .query('UPDATE venVentaProducto SET idProProducto = @idProProducto, decQuantity = @decQuantity, decSubtotal = @decSubtotal WHERE id = @id');
         res.json(result.recordset);
     } catch (error) {
         console.error('Error al realizar la venta:', error);

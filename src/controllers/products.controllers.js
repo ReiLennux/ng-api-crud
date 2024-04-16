@@ -15,6 +15,7 @@ export const getProducts = async (req, res) => {
 
 export const postProduct = async (req, res) => {
     try {
+        console.log(req.body)
         const pool = await getConnection();
         const result = await pool.request()
         .input('strName', sql.VarChar, req.body.strName)
@@ -27,7 +28,17 @@ export const postProduct = async (req, res) => {
         .input('decCost', sql.Float, req.body.decCost)
         .input('decPrice', sql.Float, req.body.decPrice)
         .input('strImage', sql.VarChar, req.body.strImage)
-        .query(`INSERT INTO ProProductos values (@strName,
+        .query(`INSERT INTO ProProductos (strName,
+                                            strDescription,
+                                            idCatCategoria, 
+                                            idCatSubcategoria, 
+                                            decMinimum, decMaximum,
+                                            decStock, 
+                                            decCost, 
+                                            decPrice, 
+                                            strImage)
+                                                
+                                                values (@strName,
                                                 @strDescription, 
                                                 @idCatCategoria,
                                                 @idCatSubcategoria,
